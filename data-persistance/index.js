@@ -1,3 +1,4 @@
+const e = require("express");
 const express = require("express");
 const fs = require("fs");
 const app = express();
@@ -20,6 +21,21 @@ app.post("/items", (req, res) => {
   items.push(newItem);
   fs.writeFileSync("items.json", JSON.stringify(items));
   res.json(newItem);
+});
+
+//update existting item using Put
+
+app.put("/items/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const itemsToUpdate = items.find((item) => item.id === id);
+  if (!itemsToUpdate) {
+    res.status(404).json({ message: `Item with ID ${id} not found` });
+  } else {
+    const updatedItem = { ...itemsToUpdate, ...req.body };
+    items.splice(items.indexOf(itemsToUpdate), 1, updatedItem);
+    fs.writeFileSync("items.json", JSON.stringify(items, null, 2));
+    res.json(updatedItem);
+  }
 });
 
 app.listen(PORT, () => {
