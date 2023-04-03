@@ -38,6 +38,20 @@ app.put("/items/:id", (req, res) => {
   }
 });
 
+//Delete existing data using delete
+
+app.delete("/items/:id", (req, res) => {
+  const id = req.params.id;
+  const itemIndex = items.findIndex((item) => item.id === Number(id));
+  if (itemIndex !== -1) {
+    items.splice(itemIndex, 1);
+    fs.writeFileSync("items.json", JSON.stringify(items));
+    res.status(204).send();
+  } else {
+    res.status(404).send("Item not found");
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
