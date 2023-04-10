@@ -1,15 +1,16 @@
-const { MongoClient } = require('mongodb');
-require('dotenv').config()
+const { MongoClient } = require("mongodb");
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 
-const uri = "mongodb+srv://sudheer:vasanthi1@cluster0.3v45a.mongodb.net/user-authentication?retryWrites=true&w=majority";
+const uri = process.env.MONGO_URI;
 const client = new MongoClient(uri);
 
 async function connect() {
   try {
     await client.connect();
-    console.log('Connected to MongoDB');
+    console.log("Connected to MongoDB");
   } catch (error) {
-    console.log('Error connecting to MongoDB:', error);
+    console.log("Error connecting to MongoDB:", error);
   }
 }
 
