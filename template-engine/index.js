@@ -5,16 +5,19 @@ const db = require("./src/db");
 
 const app = express();
 
+// Set the view engine to EJS
+app.set("view engine", "ejs");
+
 async function main() {
   await db.connect();
 
-  // Define the rest of your application routes and middleware here
-  app.get("/", (req, res) => {
-    res.send("Hello, world!");
+  // Define your routes and views here
+  app.get("/", async (req, res) => {
+    const data = { message: "Hello, world!" };
+    res.render("index", data);
   });
-
-  app.listen(3000, () => {
-    console.log("Server started on port 3000");
+  app.listen(5000, () => {
+    console.log("Server started on port 5000");
   });
 }
 
